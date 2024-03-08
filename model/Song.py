@@ -1,4 +1,6 @@
 import Album
+import subprocess
+
 
 class Song:
     
@@ -25,4 +27,9 @@ class Song:
         
     def is_feat(self) -> bool:
         return len(self.featurings) > 0
+    
+    def download_mp3(self):
+        spotify_url = f'https://open.spotify.com/track/{self.spotify_id}'
+        subprocess.run(["spotdl", spotify_url]) 
+        
         

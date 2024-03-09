@@ -1,8 +1,10 @@
+import datetime
+
 class Album:
     def __init__(self, title, cover, date, label):
         self.title = title
         self.cover = cover
-        self.date = date
+        self.date = datetime.datetime.strptime(date, '%Y-%m-%d')
         self.label = label
 
     def __str__(self):

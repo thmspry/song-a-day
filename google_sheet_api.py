@@ -22,33 +22,39 @@ class GoogleSheetApi:
         for header_name in header:
             header_index: int = header.index(header_name)
             header_idx_c[header_name] = header_index
-        
+
         for song_data in values[1:]:
             song = None
             
-            # Album
-            album_title: str = song_data[header_idx_c['Album']]
-            album_date: str = song_data[header_idx_c['Album Date']]
-            cover: str = song_data[header_idx_c['Song Preview']]
-            album_label: str = song_data[header_idx_c['Album Label']]
-            album = Album(album_title, cover, album_date, album_label)
-            
-            # Song
-                # Basic song data
-            title: str = song_data[header_idx_c['Song']]
-            length: str = song_data[header_idx_c['Time']]
-            spotify_id: str = song_data[header_idx_c['Spotify Track Id']]
-                # Artists
-            artist: str = song_data[header_idx_c['Artist']]
-            
-            artists = artist.split(',')
+            # Select only the songs with all the data filled
+            if len(song_data) == len(header):
+                
+                # Album
+                album_title: str = song_data[header_idx_c['Album']]
+                album_date: str = song_data[header_idx_c['Album Date']]
+                cover: str = song_data[header_idx_c['Cover url high']]
+                album_label: str = song_data[header_idx_c['Album Label']]
+                album = Album(album_title, cover, album_date, album_label)
+                
+                # Song
+                    # Basic song data
+                title: str = song_data[header_idx_c['Song']]
+                length: str = song_data[header_idx_c['Time']]
+                spotify_id: str = song_data[header_idx_c['Spotify Track Id']]
+                
+                comment: str = song_data[header_idx_c['Comment']]
+                    # Artists
+                artist: str = song_data[header_idx_c['Artist']]
+                
+                
+                artists = artist.split(',')
 
-            song = Song(title, artists[0], length, spotify_id, album)
+                song = Song(title, artists[0], length, spotify_id, comment, album)
 
-            if len(artists) > 1: # Song includes featuring artists
-                for artist_feat in artists[1:]:
-                    song.add_featuring(artist_feat)
-            
-            songs.append(song)
+                if len(artists) > 1: # Song includes featuring artists
+                    for artist_feat in artists[1:]:
+                        song.add_featuring(artist_feat)
+                
+                songs.append(song)
         return songs
                 

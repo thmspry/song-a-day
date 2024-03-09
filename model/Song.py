@@ -5,11 +5,12 @@ import subprocess
 class Song:
     
     featurings: list[str]
-    def __init__(self, title: str, artist: str, length: str, spotify_id: str, album: Album):
+    def __init__(self, title: str, artist: str, length: str, spotify_id: str, comment: str, album: Album):
         self.title = title
         self.artist = artist
         self.length = length
         self.spotify_id = spotify_id
+        self.comment = comment
         self.album = album
         self.featurings = []
         

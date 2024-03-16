@@ -1,12 +1,13 @@
 import Album
 import subprocess
-
+import time
+import os
 
 class Song:
     
     featurings: list[str]
     def __init__(self, title: str, artist: str, length: str, spotify_id: str, comment: str, album: Album):
-        self.title = title
+        self.title = title.split("(")[0]
         self.artist = artist
         self.length = length
         self.spotify_id = spotify_id
@@ -29,8 +30,20 @@ class Song:
     def is_feat(self) -> bool:
         return len(self.featurings) > 0
     
+    def lenght_in_seconds(self) -> int:
+        time = self.length.split(":")
+        return int(time[0]) * 60 + int(time[1])
+    
     def download_mp3(self):
         spotify_url = f'https://open.spotify.com/track/{self.spotify_id}'
-        subprocess.run(["spotdl", spotify_url]) 
+        subprocess.run(["spotdl", spotify_url])
         
+        time.sleep(45)
+        
+        for fichier in os.listdir("./"):
+            if fichier.endswith(".mp3"):
+                os.rename(fichier, "sotd.mp3")
+        
+    def delete_mp3(self):
+        os.remove("sotd.mp3")
         

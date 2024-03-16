@@ -8,7 +8,7 @@ class Album:
         self.label = label
 
     def __str__(self):
-        return f'{self.title} ({self.date}) under {self.label} label'
+        return f'{self.title} ({self.date.strftime("%d %B %Y")}) under {self.label} label'
     
     def __eq__(self, other_album) -> bool:
         return self.title == other_album.title and self.cover == other_album.cover and self.date == other_album.date

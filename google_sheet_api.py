@@ -33,8 +33,7 @@ class GoogleSheetApi:
                 album_title: str = song_data[header_idx_c['Album']]
                 album_date: str = song_data[header_idx_c['Album Date']]
                 cover: str = song_data[header_idx_c['Cover url high']]
-                album_label: str = song_data[header_idx_c['Album Label']]
-                album = Album(album_title, cover, album_date, album_label)
+                album = Album(album_title, cover, album_date)
                 
                 # Song
                     # Basic song data

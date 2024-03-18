@@ -13,6 +13,8 @@ import json
 
 import locale
 
+import time
+
 
 def file_exists(file_path: str) -> bool:
     return os.path.exists(file_path)
@@ -115,6 +117,9 @@ if __name__ == '__main__':
         ve.generate_video(song_of_the_day)
     except Exception as e:
         print(e)
+        
+    time.sleep(5)
+    print("Suppression du fichier mp3...")
     
     # publication sur les réseaux sociaux
     song_of_the_day.delete_mp3()

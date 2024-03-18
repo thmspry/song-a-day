@@ -126,21 +126,24 @@ def generate_video(song: Song, fps=60):
         # Right cover
     TEXT_MIDDLE_ALIGN = 0.5
     title = create_text(box_text(song.title, BOX_SIZE_RIGHT_COVER_BT), 0, VIDEO_LENGTH, TEXT_MIDDLE_ALIGN, TOP, fontsize=BIG_FONT_SIZE)
-    artist = create_text(box_text(song.artist, BOX_SIZE_RIGHT_COVER_BT), 0, VIDEO_LENGTH, TEXT_MIDDLE_ALIGN, TOP + 0.1, fontsize=BIG_FONT_SIZE)
+    artist = create_text(box_text(song.artist, BOX_SIZE_RIGHT_COVER_BT), 0, VIDEO_LENGTH, TEXT_MIDDLE_ALIGN, TOP + 0.13, fontsize=BIG_FONT_SIZE)
         # feat
     if song.is_feat():
         feat_text = box_text(f"feat. {', '.join(song.featurings)}", BOX_SIZE_RIGHT_COVER_ST)
-        feat = create_text(feat_text, 0, VIDEO_LENGTH, TEXT_MIDDLE_ALIGN, TOP + 0.15)
+        feat = create_text(feat_text, 0, VIDEO_LENGTH, TEXT_MIDDLE_ALIGN, TOP + 0.18)
         infos.append(feat)
         
     infos += [title, artist]
     
         # Under cover
     TEXT_LEFT_ALIGN = 0.05
-    under_text = f"{box_text(song.album.title, BOX_SIZE_UNDER_COVER_MT)}"
-    under_text = create_text(under_text, 0, VIDEO_LENGTH, TEXT_LEFT_ALIGN, TOP + 0.25, fontsize=MID_FONT_SIZE)
+    under_text_str = box_text(song.album.title, BOX_SIZE_UNDER_COVER_MT)
+    under_text = create_text(under_text_str, 0, VIDEO_LENGTH, TEXT_LEFT_ALIGN, TOP + 0.25, fontsize=MID_FONT_SIZE)
     under_text2 = f"{song.length} · {song.album.date.strftime('%d %B %Y')}"
-    under_text2 = create_text(under_text2, 0, VIDEO_LENGTH, TEXT_LEFT_ALIGN, TOP + 0.32)
+    offset = 0
+    if "\n" in under_text_str:
+        offset = 0.02
+    under_text2 = create_text(under_text2, 0, VIDEO_LENGTH, TEXT_LEFT_ALIGN, TOP + 0.3 + offset)
     
     infos += [under_text, under_text2]
     

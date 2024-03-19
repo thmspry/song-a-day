@@ -3,23 +3,21 @@ import os
 from dotenv import load_dotenv, find_dotenv
 import random
 
-import sys
-sys.path.append('model')
 from Song import Song
+from TikTokVideo import TikTokVideo
 
 import video_editor as ve
+import tiktok_publisher as tp
 
 import json
-
 import locale
-
 import time
-
 
 def file_exists(file_path: str) -> bool:
     return os.path.exists(file_path)
 
 def get_songs_already_used() -> list:
+    create_json_file_if_not_exit()
     with open("already_used.json", "r") as openfile:
         already_used = json.load(openfile)
     return list(already_used)
@@ -51,6 +49,11 @@ def create_json_file_if_not_exit():
             json.dump(data, file)
 
 def load_env(env_expected_variables: dict) -> dict:
+    env_expected_variables = {
+        "API_KEY": "une clé API Google",
+        "SPREADSHEET_ID": "l'ID du Google Sheet contenant les musiques.",
+        "SESSION_ID_TIKTOK": "l'ID de session TikTok pour se connecter au compte"
+    }
     def list_variables(variables_to_list: list[str], variable_descriptions: dict) -> str:
         r_str = ""
         for v_name in variables_to_list:
@@ -83,36 +86,32 @@ def print_and_exit(message: str):
     exit(0)
       
 if __name__ == '__main__':
+    # === 1. Initialisation ===
     locale.setlocale(locale.LC_TIME, "fr_FR")
-    
-    env_expected_variables = {
-        "API_KEY": "une clé API Google",
-        "SPREADSHEET_ID": "l'ID du Google Sheet contenant les musiques."
-    }
-    
-    env = load_env(env_expected_variables)
-    
-    create_json_file_if_not_exit()
-    
+    # Charge les variables d'environnement
+    env = load_env()
+    # Prend en compte les musiques déjà utilisées
     already_used_list = get_songs_already_used()
     
+    # === 2. Choix de la musique ===
+    # Récupération des musiques dans le Google Sheet
     gs_api = GoogleSheetApi(env["API_KEY"])
     songs: list[Song] = gs_api.request(env["SPREADSHEET_ID"], "Requested", "A1", "J215")
-    
     if len(songs) == 0:
         print_and_exit("Aucune musique n'est disponible dans le Google Sheet permettant la création d'une vidéo.")
-    
     try:
         song_of_the_day = choose_song(songs, already_used_list)
     except Exception as e:
         print_and_exit(e)
         
     print("La musique du jour est :", song_of_the_day)
+    # Sauvegarde la musique du jour dans le json d'historique
     save_new_song(song_of_the_day, already_used_list)
     
+    # === 3. Génération de la vidéo ===
+    # Télécharge le mp3 de la musique grâce à spotdl
     song_of_the_day.download_mp3()
-    
-    # génération de la vidéo
+    # Génération de la vidéo
     try:
         ve.generate_video(song_of_the_day)
     except Exception as e:
@@ -120,6 +119,10 @@ if __name__ == '__main__':
         
     time.sleep(5)
     print("Suppression du fichier mp3...")
-    
-    # publication sur les réseaux sociaux
     song_of_the_day.delete_mp3()
+    
+    # === 4. Publication sur TikTok ===
+    tiktok_video = TikTokVideo(song_of_the_day)
+    tp.publish_video(tiktok_video, env["SESSION_ID_TIKTOK"])
+    
+    

@@ -38,8 +38,6 @@ class Song:
         spotify_url = f'https://open.spotify.com/track/{self.spotify_id}'
         subprocess.run(["spotdl", spotify_url])
         
-        time.sleep(45)
-        
         for fichier in os.listdir("./"):
             if fichier.endswith(".mp3"):
                 os.rename(fichier, "sotd.mp3")

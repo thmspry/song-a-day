@@ -48,19 +48,16 @@ def create_json_file_if_not_exit():
             data = []
             json.dump(data, file)
 def load_env_expected_variables(file_path: str = "env_description.json") -> dict:
-    # Charger le JSON
-    data = json.loads(file_path)
-    # Transformer en un dictionnaire
-    return {item["key"]: item["description"] for item in data}
+    with open(file_path, 'r') as file_json:
+        # Charger le JSON
+        json_data = file_json.read()
+        data = json.loads(json_data)
+        # Transformer en un dictionnaire
+        return {item["key"]: item["description"] for item in data}
 
 def load_env() -> dict:
     
-    #env_expected_variables = load_env_expected_variables()
-    env_expected_variables = {
-        "API_KEY": "une clé API Google",
-        "SPREADSHEET_ID": "l'ID du Google Sheet contenant les musiques.",
-        "SESSION_ID_TIKTOK": "l'ID de session TikTok pour se connecter au compte"
-    }
+    env_expected_variables = load_env_expected_variables()
     def list_variables(variables_to_list: list[str], variable_descriptions: dict) -> str:
         r_str = ""
         for v_name in variables_to_list:

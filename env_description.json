@@ -1,0 +1,14 @@
+[
+    {
+        "key": "API_KEY",
+        "description": "une clé API Google"
+    },
+    {
+        "key": "SPREADSHEET_ID",
+        "description": "l'ID du Google Sheet contenant les musiques."
+    },
+    {
+        "key": "SESSION_ID_TIKTOK",
+        "description": "l'ID de session TikTok pour se connecter au compte"
+    }
+]

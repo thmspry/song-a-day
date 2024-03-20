@@ -47,8 +47,15 @@ def create_json_file_if_not_exit():
         with open(file_path, 'w') as file:
             data = []
             json.dump(data, file)
+def load_env_expected_variables(file_path: str = "env_description.json") -> dict:
+    # Charger le JSON
+    data = json.loads(file_path)
+    # Transformer en un dictionnaire
+    return {item["key"]: item["description"] for item in data}
 
-def load_env(env_expected_variables: dict) -> dict:
+def load_env() -> dict:
+    
+    #env_expected_variables = load_env_expected_variables()
     env_expected_variables = {
         "API_KEY": "une clé API Google",
         "SPREADSHEET_ID": "l'ID du Google Sheet contenant les musiques.",
@@ -109,20 +116,19 @@ if __name__ == '__main__':
     save_new_song(song_of_the_day, already_used_list)
     
     # === 3. Génération de la vidéo ===
-    # Télécharge le mp3 de la musique grâce à spotdl
-    song_of_the_day.download_mp3()
+    
+    NEW_NAME = "sotd.mp3"
+    # Supprime la musique de l'itération précédente
+    os.remove(NEW_NAME)
+    # Télécharge le mp3 de la nouvelle musique grâce à spotdl
+    song_of_the_day.download_mp3(NEW_NAME)
     # Génération de la vidéo
     try:
         ve.generate_video(song_of_the_day)
     except Exception as e:
         print(e)
-        
-    time.sleep(5)
-    print("Suppression du fichier mp3...")
-    song_of_the_day.delete_mp3()
     
     # === 4. Publication sur TikTok ===
     tiktok_video = TikTokVideo(song_of_the_day)
     tp.publish_video(tiktok_video, env["SESSION_ID_TIKTOK"])
-    
     

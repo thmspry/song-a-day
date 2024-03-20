@@ -5,6 +5,10 @@ class TikTokVideo:
         self.description = f"Aujourd'hui, {song.title} par {song.artist} sortie sur l'album {song.album.title} en {song.album.date.year} !"
         self.path = path
         
+    def __init__(self, description: str, path: str):
+        self.description = description
+        self.path = path
+        
     def __str__(self) -> str:
         stre: str = f'Description: "{self.description}"'
         stre += f"\n--> fichier dans ./{self.path}"

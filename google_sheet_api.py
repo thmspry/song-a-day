@@ -11,7 +11,10 @@ class GoogleSheetApi:
     
     def request(self, spreadsheet_id: str, sheet_name: str, range_start: str, range_end: str) -> list[Song]:
         range_name = f'{sheet_name}!{range_start}:{range_end}'
-        result = self.sheet_connection.values().get(spreadsheetId=spreadsheet_id, range=range_name).execute()
+        try:
+            result = self.sheet_connection.values().get(spreadsheetId=spreadsheet_id, range=range_name).execute()
+        except Exception as e:
+            raise Exception("Impossible de récupérer les données du Google Sheet. Vérifiez que l'ID du Google Sheet ou que la clé API soient corrects.\n: " + str(e))
         values = result.get('values', [])
         
         songs: list[Song] = []

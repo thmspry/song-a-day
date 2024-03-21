@@ -22,8 +22,8 @@ def get_songs_already_used() -> list:
         already_used = json.load(openfile)
     return list(already_used)
 
-def save_new_song(song: Song, already_used: list[str]):
-    already_used.append(song.spotify_id)
+def save_new_song(song: Song, already_used: list):
+    already_used.append(song.to_json())
     with open("already_used.json", "w") as outfile:
         json.dump(already_used, outfile)
 
@@ -47,43 +47,6 @@ def create_json_file_if_not_exit():
         with open(file_path, 'w') as file:
             data = []
             json.dump(data, file)
-def load_env_expected_variables(file_path: str = "env_description.json") -> dict:
-    with open(file_path, 'r') as file_json:
-        # Charger le JSON
-        json_data = file_json.read()
-        data = json.loads(json_data)
-        # Transformer en un dictionnaire
-        return {item["key"]: item["description"] for item in data}
-
-def load_env() -> dict:
-    
-    env_expected_variables = load_env_expected_variables()
-    def list_variables(variables_to_list: list[str], variable_descriptions: dict) -> str:
-        r_str = ""
-        for v_name in variables_to_list:
-            r_str += f"\t- {v_name} : {variable_descriptions[v_name]}"
-        return r_str
-            
-    if not file_exists(".env"):
-        msg_err = "Le fichier .env n'existe pas. Veuillez le créer en renseignant les variables suivantes :"
-        print_and_exit(msg_err + list_variables(env_expected_variables.keys(), env_expected_variables))
-
-    load_dotenv(find_dotenv())
-    missing_variables = []
-    env = {}
-    for v_name in env_expected_variables:
-        VALUE = os.environ.get(v_name)
-        if VALUE is None:
-            missing_variables.append(v_name)
-        else:
-            env[v_name] = VALUE
-      
-    if len(missing_variables) > 0:
-        one_or_two = "des variables" if len(missing_variables) > 1 else "une variable"
-        msg_err = f"Il manque {one_or_two} dans le fichier .env :"
-        print_and_exit(msg_err + list_variables(missing_variables, env_expected_variables))
-        
-    return env
     
 def print_and_exit(message: str):
     print(message)

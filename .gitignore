@@ -1,6 +1,5 @@
 __pycache__/
 .env
-already_used.json
-sotd.mp3
-tiktok_of_the_day.mp4
 .vscode/
+database/history.json
+production/

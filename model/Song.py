@@ -1,6 +1,4 @@
-import Album
-import subprocess
-import os
+from model.Album import Album
 
 class Song:
     
@@ -42,11 +40,5 @@ class Song:
         time = self.length.split(":")
         return int(time[0]) * 60 + int(time[1])
     
-    def download_mp3(self, as_name: str = "sotd"):
-        spotify_url = f'https://open.spotify.com/track/{self.spotify_id}'
-        subprocess.run(["spotdl", spotify_url])
-        
-        for fichier in os.listdir("./"):
-            if fichier.endswith(".mp3"):
-                os.rename(fichier, as_name)
+    
         

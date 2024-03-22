@@ -1,4 +1,4 @@
-from google_sheet_api import GoogleSheetApi
+from api.google_sheet_api import GoogleSheetApi
 import os
 from dotenv import load_dotenv, find_dotenv
 import random
@@ -7,7 +7,7 @@ from Song import Song
 from TikTokVideo import TikTokVideo
 
 import video_editor as ve
-import tiktok_publisher as tp
+import api.tiktok_publisher as tp
 
 import json
 import locale

@@ -13,6 +13,8 @@ import random
 
 from Song import Song
 
+
+
 def url_to_rgb_array(image_url: str) -> list:
     try:
         # Fetch the image from the URL

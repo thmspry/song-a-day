@@ -1,8 +1,15 @@
 from model.Album import Album
 
+
 class Song:
+    title: str
+    artist: str
+    length: str
+    spotify_id: str
+    comment: str
+    album: Album
+    featurings: list[str] | None = []
     
-    featurings: list[str]
     def __init__(self, title: str, artist: str, length: str, spotify_id: str, comment: str, album: Album):
         self.title = title.split("(")[0]
         self.artist = artist
@@ -20,11 +27,13 @@ class Song:
     
     def to_json(self) -> dict:
         return {
-            "id": self.spotify_id,
+            "spotify_id": self.spotify_id,
             "title": self.title,
             "artist": self.artist,
-            "album": self.album.title,
-            "album_cover": self.album.cover
+            "length": self.length,
+            "comment": self.comment,
+            "album": self.album.to_json(),
+            "featurings": self.featurings,
         }
     
     def __eq__(self, other_song) -> bool:

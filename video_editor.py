@@ -12,8 +12,9 @@ from io import BytesIO
 import random
 
 from Song import Song
+from api.song_downloader import SONG_PATH
 
-
+VIDEO_PATH = "production/tiktok_of_the_day.mp4"
 
 def url_to_rgb_array(image_url: str) -> list:
     try:
@@ -107,7 +108,7 @@ def generate_video(song: Song, fps=60):
     range_end = round(song_seconds*0.7)
     song_start_audio = random.randint(range_start, range_end)
     
-    background_music = AudioFileClip("sotd.mp3").subclip(song_start_audio, song_start_audio + VIDEO_LENGTH)
+    background_music = AudioFileClip(SONG_PATH).subclip(song_start_audio, song_start_audio + VIDEO_LENGTH)
     
     # 🎥 Video
     cover_array = url_to_rgb_array(song.album.cover)
@@ -159,4 +160,4 @@ def generate_video(song: Song, fps=60):
     audio = CompositeAudioClip([background_music])
     result = CompositeVideoClip([blurry_background, cover_image] + text, size=(1080, 1920))
     result.audio = audio
-    result.write_videofile("tiktok_of_the_day.mp4", fps=fps)
+    result.write_videofile(VIDEO_PATH, fps=fps)

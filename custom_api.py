@@ -6,15 +6,21 @@ import manager.env_manager as env_m
 import manager.file_manager as file_m
 from api.google_sheet_api import GoogleSheetApi
 import api.song_downloader as song_dl
+from api.tiktok_publisher import publish_video
 import utils
+import video_editor as ve
 
 from Song import Song
+from model.RequestBody import SongBody, songbody_to_song
+
+
 
 app = FastAPI()
 
 # CONSTANTS
 BASE_MAPPING = "/api/"
 SONG_MAPPING = BASE_MAPPING + "song/"
+VIDEO_MAPPING = BASE_MAPPING + "video/"
 
 def __choose_song__(songs: list[Song], history: list[dict]) -> Song:
     history = map(lambda song: song["id"], history)
@@ -45,8 +51,7 @@ def random_song(api_key: str, spreadsheet_id: str) -> dict:
         hist_m.save_new_song(song_of_the_day)
         return song_of_the_day.to_json()
     except Exception as e:
-        msg_err = e.args[0]
-        raise HTTPException(status_code=400, detail=msg_err)
+        raise HTTPException(status_code=400, detail=e)
 
 @app.get(SONG_MAPPING + "download")
 def download_song(spotify_id: str) -> dict:
@@ -59,8 +64,17 @@ def download_song(spotify_id: str) -> dict:
         msg_err = e.args[0]
         raise HTTPException(status_code=400, detail=msg_err)
 
-    
-    
+# VIDEO
+@app.post(VIDEO_MAPPING + "generate", response_model=SongBody)
+def edit_video(song_body: SongBody) -> str:
+    try:
+        song = songbody_to_song(song_body)
+        ve.generate_video(song)
+        return song_body
+    except Exception as e:
+        msg_err = e.args[0]
+        raise HTTPException(status_code=400, detail=msg_err)
+
 
 # HISTORY
 @app.get(BASE_MAPPING + "history")

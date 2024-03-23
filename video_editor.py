@@ -14,8 +14,6 @@ import random
 from Song import Song
 from api.song_downloader import SONG_PATH
 
-VIDEO_PATH = "production/tiktok_of_the_day.mp4"
-
 def url_to_rgb_array(image_url: str) -> list:
     try:
         # Fetch the image from the URL
@@ -91,7 +89,7 @@ def box_text(text: str, number_char_in_line: int) -> str:
     text_boxed = text_boxed.replace("\n ", "\n")
     return text_boxed
 
-def generate_video(song: Song, fps=60):
+def generate_video(song: Song, VIDEO_PATH: str, fps: int = 60):
     
     # Constants
     VIDEO_LENGTH = 30

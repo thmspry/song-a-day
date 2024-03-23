@@ -12,7 +12,8 @@ from io import BytesIO
 import random
 
 from Song import Song
-from api.song_downloader import SONG_PATH
+PRODUCTION_FOLDER = "production/"
+SONG_PATH = PRODUCTION_FOLDER + "sotd.mp3"
 
 def url_to_rgb_array(image_url: str) -> list:
     try:

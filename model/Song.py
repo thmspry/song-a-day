@@ -35,6 +35,16 @@ class Song:
             "album": self.album.to_json(),
             "featurings": self.featurings,
         }
+        
+    def to_json_history(self) -> dict:
+        return {
+            "spotify_id": self.spotify_id,
+            "title": self.title,
+            "artist": self.artist,
+            "featurings": self.featurings,
+            "album_title": self.album.title,
+            "album_cover": self.album.cover,
+        }
     
     def __eq__(self, other_song) -> bool:
         return self.spotify_id == other_song.spotify_id

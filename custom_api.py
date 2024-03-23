@@ -27,7 +27,7 @@ SONG_PATH = PRODUCTION_FOLDER + "sotd.mp3"
 VIDEO_PATH = PRODUCTION_FOLDER + "tiktok_of_the_day.mp4"
 
 def __choose_song__(songs: list[Song], history: list[dict]) -> Song:
-    history = map(lambda song: song["id"], history)
+    history = map(lambda song: song["spotify_id"], history)
     unused_songs = list(filter(lambda song: song.spotify_id not in history, songs))
 
     if len(unused_songs) == 0:
@@ -92,7 +92,7 @@ def publish_vdeo(song_body: SongBody, session_id: str) -> str:
         raise HTTPException(status_code=400, detail=msg_err)
 
 # HISTORY
-@app.get(BASE_MAPPING + "history")
+@app.get(BASE_MAPPING + "history", response_model=list[dict])
 def history() -> dict:
     history = hist_m.get_history()
     return history

@@ -14,7 +14,7 @@ def get_history() -> list:
 
 def save_new_song(song: Song) -> None:
     history = get_history()
-    history.append(song.to_json())
+    history.append(song.to_json_history())
     with open(HISTORY_PATH, "w") as outfile:
         json.dump(history, outfile)
         

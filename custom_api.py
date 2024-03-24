@@ -52,11 +52,12 @@ def __choose_song__(songs: list[Song], history: list[dict]) -> Song:
 
 # ENVIRONMENT
 @app.get(BASE_MAPPING + "env")
-def load_env() -> dict:
+def load_env():
     try:
         return env_m.load_env()
     except Exception as e:
-        return {"msg": e}
+        msg_err = e.args[0]
+        return HTTPException(status_code=400, detail=msg_err)
 
 # SONG
 @app.get(SONG_MAPPING)

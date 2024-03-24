@@ -6,7 +6,7 @@ from model.Song import Song
 
 HISTORY_PATH = "./database/history.json"
 
-def get_history() -> list:
+def get_history() -> list[dict]:
     __create_json_file_if_not_exist__()
     with open(HISTORY_PATH, "r") as openfile:
         history = json.load(openfile)

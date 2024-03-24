@@ -1,0 +1,12 @@
+
+<header>
+  <p>Historique</p>
+  <div class="history-actions">
+    <button (click)="clearHistory()">Clear</button>
+  </div>
+</header>
+@for (song of historySongs; track song) {
+  <app-song-card [song]="song"></app-song-card>
+} @empty {
+  <p>The history is empty</p>
+}

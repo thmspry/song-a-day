@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import {GeneratorComponent} from "./generator/generator.component";
-import {HistoryComponent} from "./history/history.component";
+import {GeneratorComponent} from "./main-page/generator/generator.component";
+import {HistoryComponent} from "./history-page/history/history.component";
+import {SettingsComponent} from "./setting-page/settings/settings.component";
 
 export const routes: Routes = [
   {
@@ -12,5 +13,10 @@ export const routes: Routes = [
     path: 'history',
     component: HistoryComponent,
     title: 'History'
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    title: 'Settings'
   }
 ];

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {GeneratorComponent} from "./generator/generator.component";
-import {HistoryComponent} from "./history/history.component";
+import {GeneratorComponent} from "./main-page/generator/generator.component";
+import {HistoryComponent} from "./history-page/history/history.component";
 
 
 @Component({

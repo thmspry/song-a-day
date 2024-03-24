@@ -1,0 +1,21 @@
+.song-card {
+  height: 125px;
+  display: flex;
+  margin: 10px 0;
+
+  img {
+    height: 100%;
+    border-radius: 5px;
+  }
+
+  .song-info {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    margin-left: 20px;
+
+    p {
+      margin: 0;
+    }
+  }
+}

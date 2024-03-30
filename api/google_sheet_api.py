@@ -29,8 +29,11 @@ class GoogleSheetApi:
         for song_data in values[1:]:
             song = None
             
+            
+            comment_done = song_data[header_idx_c['Commentaire fini']] == "TRUE"
+            
             # Select only the songs with all the data filled
-            if len(song_data) == len(header):
+            if len(song_data) == len(header) and comment_done:
                 
                 # Album
                 album_title: str = song_data[header_idx_c['Album']]

@@ -64,7 +64,7 @@ def load_env():
 def random_song(api_key: str, spreadsheet_id: str) -> dict:
     gs_api = GoogleSheetApi(api_key)
     try:
-        songs: list[Song] = gs_api.request(spreadsheet_id, "Requested", "A1", "J215")
+        songs: list[Song] = gs_api.request(spreadsheet_id, "Requested", "A1", "K215")
         history = hist_m.get_history()
         song_of_the_day = __choose_song__(songs, history)
         hist_m.save_new_song(song_of_the_day)
